@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import './App.css'
+import FoodCard from './components/FoodCard'
+import NavBar from './components/NavBar';
+import Menu from "./menuApi";
+const App = () => {
 
-function App() {
+  const [menuData, setMenuData] = useState(Menu);
+
+  const filterItem = category => {
+    const updatedList = Menu.filter(item => item.category === category)
+    setMenuData(updatedList);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <NavBar filterItem={filterItem} Menu={Menu} setMenuData={setMenuData} />
+      <div className="main-card--cointainer">
+        {menuData.map(item =>
+          <FoodCard key={item.id} {...item} />
+        )}
+      </div>
+    </>
+  )
 }
 
-export default App;
+export default App
